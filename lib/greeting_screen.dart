@@ -1,5 +1,6 @@
 import 'package:assigment3/counter_tool.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class GreetingPage extends StatelessWidget {
   @override
@@ -29,12 +30,9 @@ class GreetingPage extends StatelessWidget {
             SizedBox(height: 10.0),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CounterTool()),
-                );
+                GoRouter.of(context).push("/counterTool");
               },
-              child: Text('Tool 1'),
+              child: Text('Counter Tool'),
             ),
             ElevatedButton(
               onPressed: () {
