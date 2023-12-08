@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CounterTool extends StatefulWidget {
+  const CounterTool({super.key});
+
   @override
   _CounterToolState createState() => _CounterToolState();
 }
@@ -18,24 +20,24 @@ class _CounterToolState extends State<CounterTool> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Counter Tool'),
+        title: const Text('Counter Tool'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
+            const Text(
               'Counter Value:',
               style: TextStyle(fontSize: 20.0),
             ),
             Text(
               '$_counter',
-              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: _incrementCounter,
-              child: Text('Increment Counter'),
+              child: const Text('Increment Counter'),
             ),
           ],
         ),
