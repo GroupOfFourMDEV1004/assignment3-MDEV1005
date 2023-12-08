@@ -37,15 +37,15 @@ class GreetingPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                // Navigate to the second tool screen
+                GoRouter.of(context).push("/calculatorTool");
               },
-              child: const Text('Tool 2'),
+              child: const Text('Calculator Tool'),
             ),
             ElevatedButton(
               onPressed: () {
-                // Navigate to the third tool screen
+                GoRouter.of(context).push("/notesTool");
               },
-              child: const Text('Tool 3'),
+              child: const Text('Notes Tool'),
             ),
           ],
         ),
