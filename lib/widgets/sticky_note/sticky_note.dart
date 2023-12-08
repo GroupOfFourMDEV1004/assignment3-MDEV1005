@@ -123,23 +123,6 @@ class StickyNoteItem extends HookConsumerWidget {
 
 
 
-bool useIsFocused(FocusNode node) {
-  final isFocused = useState(node.hasFocus);
-
-  useEffect(
-    () {
-      void listener() {
-        isFocused.value = node.hasFocus;
-      }
-
-      node.addListener(listener);
-      return () => node.removeListener(listener);
-    },
-    [node],
-  );
-
-  return isFocused.value;
-}
 
 class NewNoteItem extends HookConsumerWidget {
   const NewNoteItem({super.key});
