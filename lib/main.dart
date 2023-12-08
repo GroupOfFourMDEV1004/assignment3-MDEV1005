@@ -1,5 +1,6 @@
 
 import 'package:assigment3/greeting_screen.dart';
+import 'package:assigment3/screens/sticky_note_screen.dart';
 import 'package:assigment3/widgets/calculator/calculator.dart';
 import 'package:assigment3/widgets/sticky_note/sticky_note.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
     GoRoute(path: "/", builder: ((context, state) => const GreetingPage())),
     GoRoute(path: "/counterTool", builder: ((context, state) => const CounterTool())),
     GoRoute(path: "/calculatorTool", builder: ((context, state) => const CalculatorTool())),
-    GoRoute(path: "/notesTool", builder: ((context, state) => const StickyNote()))
+    GoRoute(path: "/notesTool", builder: ((context, state) => const StickyNoteScreen()))
   ]);
 }
 
