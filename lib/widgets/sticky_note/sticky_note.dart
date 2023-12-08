@@ -49,6 +49,10 @@ class StickyNoteItem extends HookConsumerWidget {
     final textFieldFocusNode = useFocusNode();
 
     void update() {
+      if (textEditingController.text.isEmpty) {
+        showEmptyNoteDialog(context);
+        return;
+      }
       ref.read(noteListProvider.notifier).edit(note.id, textEditingController.text);
       toggleEditMode();
     }
@@ -150,6 +154,10 @@ class NewNoteItem extends HookConsumerWidget {
       isCreateMode.value = !isCreateMode.value;
     }
     void add() {
+      if (textEditingController.text.isEmpty) {
+        showEmptyNoteDialog(context);
+        return;
+      }
       ref.read(noteListProvider.notifier).add(textEditingController.text);
       toggleCreateMode();
       textEditingController.text = "";
@@ -211,4 +219,21 @@ class NewNoteItem extends HookConsumerWidget {
     );
   }
   
+}
+void showEmptyNoteDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Empty Note'),
+        content: const Text('Note cannot be empty.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
 }
