@@ -1,16 +1,14 @@
 
 import 'package:assigment3/greeting_screen.dart';
+import 'package:assigment3/widgets/calculator/calculator.dart';
+import 'package:assigment3/widgets/sticky_note/sticky_note.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'counter_tool.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,8 +24,9 @@ class MyApp extends StatelessWidget {
   }
   final GoRouter _router = GoRouter(routes: [
     GoRoute(path: "/", builder: ((context, state) => const GreetingPage())),
-    GoRoute(path: "/counterTool", builder: ((context, state) => const CounterTool()))
-    // GoRoute(path: "/secondTool", builder: ((context, state) => const SecondTool()))
+    GoRoute(path: "/counterTool", builder: ((context, state) => const CounterTool())),
+    GoRoute(path: "/calculatorTool", builder: ((context, state) => const CalculatorTool())),
+    GoRoute(path: "/notesTool", builder: ((context, state) => const StickyNote()))
   ]);
 }
 
