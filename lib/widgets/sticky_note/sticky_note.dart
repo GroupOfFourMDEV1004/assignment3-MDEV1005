@@ -13,12 +13,10 @@ class StickyNote extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final noteRef = ref.watch(noteListProvider);
-    final newNoteController = useTextEditingController();
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.all(8),
         children: [
-          Text("Sticky Notes"),
           if (noteRef.isNotEmpty) const Divider(height: 0),
           for (var i = 0; i < noteRef.length; i++) ...[
             if (i > 0) const Divider(height: 0),
@@ -41,19 +39,26 @@ class StickyNoteItem extends HookConsumerWidget {
   final Note note;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final itemFocusNode = useFocusNode();
-    final itemIsFocused = useIsFocused(itemFocusNode);
+    final isEditMode = useState(false);
 
-    final textEditingController = useTextEditingController();
+    void toggleEditMode() {
+      isEditMode.value = !isEditMode.value;
+    }
+
+    final textEditingController = useTextEditingController(text:note.body);
     final textFieldFocusNode = useFocusNode();
 
     void update() {
+      if (textEditingController.text.isEmpty) {
+        showEmptyNoteDialog(context);
+        return;
+      }
       ref.read(noteListProvider.notifier).edit(note.id, textEditingController.text);
-      itemFocusNode.unfocus();
+      toggleEditMode();
     }
 
     void cancel() {
-      itemFocusNode.unfocus();
+      toggleEditMode();
     }
 
     void delete() {
@@ -63,14 +68,7 @@ class StickyNoteItem extends HookConsumerWidget {
     return Material(
       color: Colors.white,
       elevation: 6,
-      child: Focus(
-        focusNode: itemFocusNode,
-        onFocusChange: (focused) {
-          if (focused) {
-            textEditingController.text = note.body;
-          }
-        },
-        child: Padding(
+      child: Padding(
           padding: const EdgeInsets.all(8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,17 +77,20 @@ class StickyNoteItem extends HookConsumerWidget {
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(8),
-                    child: itemIsFocused
+                    child: isEditMode.value
                     ? TextField(
                       autofocus: true,
                       focusNode: textFieldFocusNode,
                       controller: textEditingController,
-                    ) : Text(note.body)
+                    ) : GestureDetector(
+                      onTap: toggleEditMode,
+                      child: Text(note.body)
+                    )
                   )
                 )
               ),
               Visibility(
-                visible: itemIsFocused,
+                visible: isEditMode.value,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -115,7 +116,6 @@ class StickyNoteItem extends HookConsumerWidget {
             ]
           )
         )
-      )
     );
   }
 }
@@ -154,6 +154,10 @@ class NewNoteItem extends HookConsumerWidget {
       isCreateMode.value = !isCreateMode.value;
     }
     void add() {
+      if (textEditingController.text.isEmpty) {
+        showEmptyNoteDialog(context);
+        return;
+      }
       ref.read(noteListProvider.notifier).add(textEditingController.text);
       toggleCreateMode();
       textEditingController.text = "";
@@ -215,4 +219,21 @@ class NewNoteItem extends HookConsumerWidget {
     );
   }
   
+}
+void showEmptyNoteDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Empty Note'),
+        content: const Text('Note cannot be empty.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
 }
