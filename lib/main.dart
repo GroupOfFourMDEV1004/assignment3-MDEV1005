@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
     );
   }
   final GoRouter _router = GoRouter(routes: [
-    GoRoute(path: "/", builder: ((context, state) => GreetingPage())),
-    GoRoute(path: "/counterTool", builder: ((context, state) => CounterTool()))
+    GoRoute(path: "/", builder: ((context, state) => const GreetingPage())),
+    GoRoute(path: "/counterTool", builder: ((context, state) => const CounterTool()))
     // GoRoute(path: "/secondTool", builder: ((context, state) => const SecondTool()))
   ]);
 }
