@@ -46,7 +46,6 @@ class StickyNoteItem extends HookConsumerWidget {
     }
 
     final textEditingController = useTextEditingController(text:note.body);
-    final textFieldFocusNode = useFocusNode();
 
     void update() {
       if (textEditingController.text.isEmpty) {
@@ -80,7 +79,6 @@ class StickyNoteItem extends HookConsumerWidget {
                     child: isEditMode.value
                     ? TextField(
                       autofocus: true,
-                      focusNode: textFieldFocusNode,
                       controller: textEditingController,
                     ) : GestureDetector(
                       onTap: toggleEditMode,
