@@ -26,7 +26,8 @@ class StickyNote extends HookConsumerWidget {
               key: ValueKey(noteRef[i].id),
               note: noteRef[i]
             )
-          ]
+          ],
+          const NewNoteItem()
         ]
       )
     );
