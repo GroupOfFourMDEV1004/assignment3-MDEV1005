@@ -41,13 +41,16 @@ class StickyNoteItem extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = useState(false);
 
-    void toggleEditMode() {
-      isEditMode.value = !isEditMode.value;
-    }
 
     final textEditingController = useTextEditingController(text:note.body);
     final textFieldFocusNode = useFocusNode();
 
+    void toggleEditMode() {
+      isEditMode.value = !isEditMode.value;
+      if (isEditMode.value == true) {
+        textFieldFocusNode.requestFocus();
+      }
+    }
     void update() {
       if (textEditingController.text.isEmpty) {
         showEmptyNoteDialog(context);
@@ -123,23 +126,6 @@ class StickyNoteItem extends HookConsumerWidget {
 
 
 
-bool useIsFocused(FocusNode node) {
-  final isFocused = useState(node.hasFocus);
-
-  useEffect(
-    () {
-      void listener() {
-        isFocused.value = node.hasFocus;
-      }
-
-      node.addListener(listener);
-      return () => node.removeListener(listener);
-    },
-    [node],
-  );
-
-  return isFocused.value;
-}
 
 class NewNoteItem extends HookConsumerWidget {
   const NewNoteItem({super.key});
@@ -149,9 +135,13 @@ class NewNoteItem extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textEditingController = useTextEditingController();
     final isCreateMode = useState(false);
+    final textFieldFocusNode = useFocusNode();
 
     void toggleCreateMode() {
       isCreateMode.value = !isCreateMode.value;
+      if (isCreateMode.value == true) {
+        textFieldFocusNode.requestFocus();
+      }
     }
     void add() {
       if (textEditingController.text.isEmpty) {
@@ -183,6 +173,7 @@ class NewNoteItem extends HookConsumerWidget {
                     child: isCreateMode.value
                     ? TextField(
                       autofocus: true,
+                      focusNode: textFieldFocusNode,
                       controller: textEditingController,
                     ) : GestureDetector(
                       onTap: toggleCreateMode,
